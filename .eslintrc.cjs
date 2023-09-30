@@ -18,5 +18,6 @@ module.exports = {
     ],
     'semi': 'error',
     'quotes': ['error', 'single'],
+    'object-curly-spacing': ['error', 'always'],
   },
 }

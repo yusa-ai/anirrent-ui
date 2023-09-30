@@ -19,9 +19,14 @@ import { DownloadIcon } from '@chakra-ui/icons';
 import { Select, CreatableSelect } from 'chakra-react-select';
 
 function App() {
+  const [magnetUrl, setMagnetUrl] = useState('');
+
   const [entryType, setEntryType] = useState('TV'); // ['TV', 'MOVIE']
   const [entries, setEntries] = useState([]);
   const [selectedEntry, setSelectedEntry] = useState(null);
+
+  const [season, setSeason] = useState(1);
+  const [episode, setEpisode] = useState(1);
 
   useEffect(() => {
     const fetchEntries = async () => {
@@ -78,6 +83,26 @@ function App() {
     }
   };
 
+  const handleSubmit = async () => {
+    const response = await fetch('http://localhost:8000/v1/download', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        magnet_url: magnetUrl,
+        entry_name: selectedEntry.label,
+        season: season,
+        episode: episode,
+      }),
+    });
+
+    if (response.ok) {
+      // TODO show download progress
+      console.log('Download started');
+    }
+  };
+
   return (
     <Center h="100vh" px="10%">
       <VStack flexBasis="100%" maxW="600px" spacing={4}>
@@ -85,7 +110,7 @@ function App() {
         <FormControl>
           <FormLabel>Magnet URL</FormLabel>
           <InputGroup>
-            <Input placeholder="Magnet URL" />
+            <Input placeholder="Magnet URL" value={magnetUrl} onChange={(e) => setMagnetUrl(e.target.value)} />
             <InputRightElement width="4.5rem">
               <Button h="1.75rem" size="sm" onClick={goToNyaa}>
                 Search
@@ -110,7 +135,7 @@ function App() {
           {/* Season */}
           <FormControl isDisabled={entryType === 'MOVIE'}>
             <FormLabel>Season</FormLabel>
-            <NumberInput defaultValue={1} min={1}>
+            <NumberInput value={season} onChange={(value) => setSeason(value)} min={1}>
               <NumberInputField />
               <NumberInputStepper>
                 <NumberIncrementStepper />
@@ -122,7 +147,7 @@ function App() {
           {/* Episode */}
           <FormControl isDisabled={entryType === 'MOVIE'}>
             <FormLabel>Episode</FormLabel>
-            <NumberInput defaultValue={1} min={1}>
+            <NumberInput value={episode} onChange={(value) => setEpisode(value)} min={1}>
               <NumberInputField />
               <NumberInputStepper>
                 <NumberIncrementStepper />
@@ -133,7 +158,7 @@ function App() {
         </HStack>
 
         {/* Download */}
-        <Button type="submit" leftIcon={<DownloadIcon />} colorScheme="purple" width="100%">
+        <Button onClick={handleSubmit} leftIcon={<DownloadIcon />} colorScheme="purple" width="100%">
           Download
         </Button>
       </VStack>

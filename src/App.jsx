@@ -92,8 +92,8 @@ function App() {
       body: JSON.stringify({
         magnet_url: magnetUrl,
         entry_name: selectedEntry.label,
-        season: season,
-        episode: episode,
+        ...(entryType === 'TV' && { season }),
+        ...(entryType === 'TV' && { episode })
       }),
     });
 

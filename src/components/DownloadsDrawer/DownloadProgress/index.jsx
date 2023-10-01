@@ -15,7 +15,7 @@ function DownloadProgress({ download }) {
 
   useEffect(() => {
     const fetchDownloadProgress = async () => {
-      const response = await fetch(`http://localhost:8000/v1/download/${download.download_uuid}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/download/${download.download_uuid}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -38,7 +38,7 @@ function DownloadProgress({ download }) {
   useEffect(() => {
     if (downloadProgress === 100) {
       const fetchUploadStatus = async () => {
-        const response = await fetch(`http://localhost:8000/v1/upload/${download.download_uuid}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/upload/${download.download_uuid}`, {
           headers: {
             'Content-Type': 'application/json',
           },

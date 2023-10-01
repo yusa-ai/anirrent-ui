@@ -15,7 +15,6 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Heading,
-  useToast,
 } from '@chakra-ui/react';
 import { DownloadIcon } from '@chakra-ui/icons';
 import { Select, CreatableSelect } from 'chakra-react-select';
@@ -33,7 +32,7 @@ function DownloadForm({ setDownloads }) {
 
   useEffect(() => {
     const fetchEntries = async () => {
-      const response = await fetch(`http://localhost:8000/v1/entries?entry_type=${entryType}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/entries?entry_type=${entryType}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -68,7 +67,7 @@ function DownloadForm({ setDownloads }) {
     // Fake instant creation for seamless UX
     setSelectedEntry({ label: name, value: 'fake-uuid' });
 
-    const response = await fetch('http://localhost:8000/v1/entries', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/entries`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -87,7 +86,7 @@ function DownloadForm({ setDownloads }) {
   };
 
   const handleSubmit = async () => {
-    const response = await fetch('http://localhost:8000/v1/download', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/download`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -73,7 +73,7 @@ function DownloadProgress({ download }) {
     <Flex direction="column" p={5} gap={2} width="100%" bg="white" borderRadius={5} boxShadow="xl">
       {/* Title */}
       <HStack justifyContent="space-between" >
-        <Tooltip label="Zom 100: Zombie ni Naru Made ni Shitai 100 no Koto  - S01E01.mkv">
+        <Tooltip label={download.file_name}>
           <Text noOfLines={1} maxW="70%">{download.file_name}</Text>
         </Tooltip>
         {downloadProgress === 100 && uploadDone && (<CheckCircleIcon color="teal" />)}
